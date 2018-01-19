@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+# create record baru via xml untuk ir.module.category & res.groups
+# author @CakJuice <hd.brandoz@gmail.com>
+-->
+
+<odoo>
+	<data>
+		<!-- access right berbentuk dropdown -->
+
+		<!-- 
+			Buat kategori baru terlebih dahulu,
+			pada UI groups, "ir.module.category" adalah fields
+			yang mempunyai string "Application"
+		-->
+		<record model="ir.module.category" id="access_right_category_dropdown">
+			<field name="name">Tutor Access Right</field>
+			<field name="description">Akses user untuk modul cj_tutor_access_right</field>
+		</record>
+
+		<record model="res.groups" id="cj_tutor_access_right.group_employee">
+			<field name="name">Karyawan</field>
+			<!-- category_id diisi berdasarkan kategori yang sudah dibuat diatas -->
+			<field name="category_id" ref="access_right_category_dropdown"/>
+		</record>
+
+		<record model="res.groups" id="cj_tutor_access_right.group_manager">
+			<field name="name">Manager</field>
+			<field name="category_id" ref="access_right_category_dropdown"/>
+			<!--
+				implied_ids adalah untuk mengatur group lain yang ter-implikasi,
+				dari group yang baru dibuat ini.
+				Efeknya adalah, jika user diset sebagai anggota grup manager,
+				maka otomatis dia adalah anggota grup karyawan.
+				Jika tidak ingin seperti itu maka kita bisa mengabaikan field ini.
+				Field implied_ids bisa dilihat di tab "Inherited" pada form group.
+				Isi field dengan 'eval', untuk meng-evaluasi nilai defaultnya.
+				Untuk memahami mengapa ada nilai 4, silakan buka link,
+				https://www.odoo.com/documentation/10.0/reference/orm.html#model-reference,
+				baca mulai tulisan 'One2many and Many2many use a special "commands"'....'
+			-->
+			<field name="implied_ids" eval="[(4, ref('cj_tutor_access_right.group_employee'))]"/>
+		</record>
+
+		<record model="res.groups" id="cj_tutor_access_right.group_direktur">
+			<field name="name">Direktur</field>
+			<field name="category_id" ref="access_right_category_dropdown"/>
+			<!-- referensi implied_ids harus id record sebelumnya
+			yaitu cj_tutor_access_right.group_manager -->
+			<field name="implied_ids" eval="[(4, ref('cj_tutor_access_right.group_manager'))]"/>
+		</record>
+		<!-- end of - access right berbentuk dropdown -->
+
+		<!-- access right berbentuk checkbox -->
+		<record model="ir.module.category" id="access_right_category_checkbox">
+			<field name="name">Kewenangan User</field>
+			<field name="description">Kewenangan User untuk model cj_tutor.access_right</field>
+		</record>
+
+		<record model="res.groups" id="cj_tutor_access_right.group_valid">
+			<field name="name">Can Validate</field>
+			<field name="category_id" ref="access_right_category_checkbox"/>
+		</record>
+
+		<record model="res.groups" id="cj_tutor_access_right.group_refuse">
+			<field name="name">Can Refuse</field>
+			<field name="category_id" ref="access_right_category_checkbox"/>
+		</record>
+	</data>
+</odoo>

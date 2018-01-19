@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+# View untuk model cj_tutor.access_right
+# author @CakJuice <hd.brandoz@gmail.com>
+-->
+
+<odoo>
+	<data>
+		<!-- hanya cj_tutor_access_right.group_employee yang bisa mengakses -->
+		<menuitem id="menu_access_right" name="Menu Tutor Hak Akses" groups="cj_tutor_access_right.group_employee"/>
+
+		<record model="ir.ui.view" id="view_tutor_access_tree">
+			<field name="name">cj_tutor.access_right.tree</field>
+			<field name="model">cj_tutor.access_right</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="name"/>
+					<field name="description"/>
+					<field name="state"/>
+				</tree>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="view_tutor_access_form">
+			<field name="name">cj_tutor.access_right.form</field>
+			<field name="model">cj_tutor.access_right</field>
+			<field name="arch" type="xml">
+				<form>
+					<header>
+						<!-- button hanya tampil jika state = 'valid' atau state = 'refuse'
+						dan semua user bisa mengaksesnya -->
+						<button type="object" name="action_draft" string="Set to Draft" states="valid,refuse"/>
+						<!-- button hanya tampil jika state = 'draft'
+						dan hanya user yang punya kewenangan "Can Validate"
+						yang bisa mengaksesnya -->
+						<button type="object" name="action_valid" string="Validate" groups="cj_tutor_access_right.group_valid" states="draft"/>
+						<!-- button hanya tampil jika state = 'draft'
+						dan hanya user yang punya kewenangan "Can Refuse"
+						yang bisa mengaksesnya -->
+						<button type="object" name="action_refuse" string="Refuse" groups="cj_tutor_access_right.group_refuse" states="draft,valid"/>
+						<field name="state" widget="statusbar"/>
+					</header>
+					<sheet>
+						<group>
+							<field name="name"/>
+							<field name="description"/>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record model="ir.actions.act_window" id="action_view_tutor_access_karyawan">
+			<field name="name">Menu Tutor Hak Akses Karyawan</field>
+			<field name="res_model">cj_tutor.access_right</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="domain">[('create_uid', '=', uid)]</field>
+		</record>
+
+		<!-- hanya cj_tutor_access_right.group_employee yang bisa mengakses,
+		dan hanya menampilkan data yang diinput oleh user itu sendiri -->
+		<menuitem id="menu_access_right_karyawan" action="action_view_tutor_access_karyawan" parent="menu_access_right" sequence="1" groups="cj_tutor_access_right.group_employee"/>
+
+		<record model="ir.actions.act_window" id="action_view_tutor_access_manager">
+			<field name="name">Menu Tutor Hak Akses Manager</field>
+			<field name="res_model">cj_tutor.access_right</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<!-- hanya cj_tutor_access_right.group_manager yang bisa mengakses -->
+		<menuitem id="menu_access_right_manager" action="action_view_tutor_access_manager" parent="menu_access_right" sequence="2" groups="cj_tutor_access_right.group_manager"/>
+	</data>
+</odoo>
