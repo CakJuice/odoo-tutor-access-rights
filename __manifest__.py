@@ -25,6 +25,7 @@ Silakan gunakan untuk keperluan belajar Odoo.""",
         # 'views/templates.xml',
         'security/new_group.xml',
         'security/ir.model.access.csv',
+        'security/new_rule.xml',
         'views/views.xml',
     ],
     # only loaded in demonstration mode

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<record model="ir.rule" id="cj_tutor_access_right.only_creator_can_modify">
+			<field name="name">only.creator.can.modify</field>
+			<field name="model_id" ref="model_cj_tutor_access_right"/>
+			<field name="groups" eval="[(4, [ref('cj_tutor_access_right.group_manager'), ref('cj_tutor_access_right.group_employee')])]"/>
+			<field name="perm_read" eval="0"/>
+			<field name="perm_write" eval="1"/>
+			<field name="perm_create" eval="0"/>
+			<field name="perm_unlink" eval="0"/>
+			<field name="domain_force">[('create_uid', '=', user.id)]</field>
+		</record>
+	</data>
+</odoo>
