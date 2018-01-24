@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+# create record baru via xml untuk ir.rule
+# author @CakJuice <hd.brandoz@gmail.com>
+-->
+
 <odoo>
 	<data>
 		<record model="ir.rule" id="cj_tutor_access_right.only_creator_can_modify">
