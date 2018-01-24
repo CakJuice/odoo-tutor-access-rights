@@ -7,8 +7,6 @@
 
 <odoo>
 	<data>
-		<!-- access right berbentuk dropdown -->
-
 		<!-- 
 			Buat kategori baru terlebih dahulu,
 			pada UI groups, "ir.module.category" adalah fields
@@ -19,6 +17,7 @@
 			<field name="description">Akses user untuk modul cj_tutor_access_right</field>
 		</record>
 
+		<!-- access right berbentuk dropdown -->
 		<record model="res.groups" id="cj_tutor_access_right.group_employee">
 			<field name="name">Karyawan</field>
 			<!-- category_id diisi berdasarkan kategori yang sudah dibuat diatas -->
